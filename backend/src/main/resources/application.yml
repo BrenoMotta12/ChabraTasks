@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: chabraapi
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chabra
+    username: chabra
+    password: chabrapass
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080
+
+jwt:
+  secreteKey: 5046df8000c37a2321ccff7db21c33850c08f5467f491699e950fa70ecd03038
+  expirationTime: 604800
