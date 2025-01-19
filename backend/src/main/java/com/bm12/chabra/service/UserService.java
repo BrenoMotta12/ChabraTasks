@@ -11,7 +11,9 @@ import com.bm12.chabra.model.User;
 import com.bm12.chabra.model.UserRole;
 import com.bm12.chabra.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -119,9 +121,15 @@ public class UserService implements UserDetailsService {
         // Carrega o usuário
         User user = findUserById(id);
 
+        // Verifica se o usuário está permitido a acessar essa funcionalidade
+        VerifyUserPermission(user);
+
         return ResponseEntity.ok(GetUser.converter(user));
 
     }
+
+
+
 
     /**
      * Atualiza um usuário
@@ -130,8 +138,6 @@ public class UserService implements UserDetailsService {
      * @return GetUser com os dados do usuário atualizado
      */
     public ResponseEntity<GetUser> updateUser(UpdateUser updateUser) {
-
-
 
         // Carrega o usuário
         User user = findUserById(updateUser.getId());
@@ -155,6 +161,11 @@ public class UserService implements UserDetailsService {
         if (updateUser.getNewPassword() != null) {
             user.setPassword(this.passwordEncoder.encode(updateUser.getNewPassword()));
         }
+
+        if (updateUser.getRole() != null) {
+            user.setRole(updateUser.getRole());
+        }
+
         try {
             user = this.userRepository.save(user);
             return ResponseEntity.ok(GetUser.converter(user));
@@ -162,9 +173,9 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("Error updating user");
 
         }
-
-
     }
+
+
 
     /**
      * Autentica um usuário
@@ -198,5 +209,31 @@ public class UserService implements UserDetailsService {
         return this.userRepository.findById(userId).orElseThrow(() -> {
             return new NotFoundException("User not found");
         });
+    }
+
+
+    // Verifica se o usuário é administrador ou se ele é o usuário proprietário do token
+    public static void VerifyUserPermission(User user) {
+        org.springframework.security.core.userdetails.User userDetails = getUserDetails();
+
+        if (userDetails == null) {
+            throw new UnauthorizedException("User not authenticated");
+        } else if (
+                !(userDetails.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN")))
+                        && !userDetails.getUsername().equals(user.getEmail())
+        ) {
+            throw new UnauthorizedException("User not authenticated");
+        }
+    }
+
+    private static org.springframework.security.core.userdetails.User getUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            return (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+        }
+
+        return null;
     }
 }

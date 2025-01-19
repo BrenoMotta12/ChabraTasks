@@ -47,7 +47,9 @@ public class SpringSecurityConfig {
                                         "/users/signUp",            // Endpoint de cadastro de usuário
                                         "/users/auth"               // Endpoint de autenticação do usuário
                                 ).permitAll()// As rotas especificadas acima são acessíveis sem autenticação
-                                .requestMatchers(HttpMethod.GET,"/users").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(
+                                       "/users",
+                                        "/users/update").hasRole(String.valueOf(UserRole.ADMIN))
                                 .anyRequest().authenticated()  // Todas as outras requisições precisam ser autenticadas
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Define a política de sessão como STATELESS (sem estado)

@@ -14,7 +14,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +30,8 @@ import java.util.UUID;
 @RequestMapping("/users")
 @Tag(name = "User")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
@@ -119,6 +126,8 @@ public class UserController {
     public ResponseEntity<List<GetUser>> getAllUsers() {
         return this.userService.getAllUsers();
     }
+
+
 
     /**
      * Endpoint para retornar um usuário específico baseado no ID.
