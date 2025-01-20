@@ -8,7 +8,7 @@ import com.bm12.chabra.dto.user.GetUser;
 import com.bm12.chabra.dto.user.SaveUser;
 import com.bm12.chabra.dto.user.UpdateUser;
 import com.bm12.chabra.model.User;
-import com.bm12.chabra.model.UserRole;
+import com.bm12.chabra.model.enums.UserRole;
 import com.bm12.chabra.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,7 @@
 package com.bm12.chabra.model;
 
 import com.bm12.chabra.dto.user.SaveUser;
+import com.bm12.chabra.model.enums.UserRole;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "roles", nullable = false)
     private UserRole role;
+
+    @ManyToMany(mappedBy = "responsibles")
+    private List<Task> tasks;
 
 
     public User() {}

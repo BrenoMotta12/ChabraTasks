@@ -1,7 +1,6 @@
 package com.bm12.chabra.dto.user;
 
-import com.bm12.chabra.model.User;
-import com.bm12.chabra.model.UserRole;
+import com.bm12.chabra.model.enums.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

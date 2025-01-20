@@ -1,4 +1,4 @@
-package com.bm12.chabra.model;
+package com.bm12.chabra.model.enums;
 
 public enum UserRole {
 
