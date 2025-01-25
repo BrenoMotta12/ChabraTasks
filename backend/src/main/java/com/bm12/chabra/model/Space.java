@@ -3,6 +3,7 @@ package com.bm12.chabra.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,18 +19,31 @@ public class Space {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "color")
+    private String color;
 
     @OneToMany(mappedBy = "space")
     private List<ListTask> list;
 
+    @Column(name = "delete_at")
+    private LocalDateTime deletedAt;
 
-    public Space(UUID id, String name, String description, List<ListTask> list) {
+
+    public Space(UUID id, String name, String description, String color, List<ListTask> list) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.color = color;
         this.list = list;
+    }
+
+    public Space(String name, String description, String color) {
+        this.name = name;
+        this.description = description;
+        this.color = color;
     }
 
     public Space() {
@@ -61,5 +75,20 @@ public class Space {
 
     public void setList(List<ListTask> list) {
         this.list = list;
+    }
+
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

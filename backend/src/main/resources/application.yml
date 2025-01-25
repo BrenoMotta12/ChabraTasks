@@ -17,4 +17,4 @@ server:
 
 jwt:
   secreteKey: 5046df8000c37a2321ccff7db21c33850c08f5467f491699e950fa70ecd03038
-  expirationTime: 604800
+  expirationTime: 43200000

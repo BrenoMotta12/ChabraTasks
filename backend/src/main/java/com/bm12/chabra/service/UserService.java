@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
                         user.getPassword(),
                         authorities // Adiciona as permissões extraídas do User
                 );
-            }).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+            }).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
         } catch (Exception e) {
             throw new RuntimeException("Error loading user", e);
         }
@@ -68,7 +68,7 @@ public class UserService implements UserDetailsService {
 
         // Verifica se o usuário já existe
         if (this.userRepository.existsByEmail(saveUser.getEmail())) {
-            throw new AlreadyExistsException("There is already a user with this email");
+            throw new AlreadyExistsException("Já existe um usuário com esse email");
         }
 
         User user = new User(
@@ -185,12 +185,12 @@ public class UserService implements UserDetailsService {
      */
     public ResponseEntity<String> auth(AuthUser authUser) {
         User user = this.userRepository.findByEmail(authUser.getEmail()).orElseThrow(() -> {
-            return new NotFoundException("User not found");
+            return new NotFoundException("Usuário não encontrado");
         });
 
         // Verifica se a senha é valida
         if (!this.passwordEncoder.matches(authUser.getPassword(), user.getPassword())) {
-            throw new UnauthorizedException("Invalid password");
+            throw new UnauthorizedException("Senha inválida");
         }
 
         // Gera o token do usuário
@@ -207,7 +207,7 @@ public class UserService implements UserDetailsService {
      */
     public User findUserById(UUID userId) {
         return this.userRepository.findById(userId).orElseThrow(() -> {
-            return new NotFoundException("User not found");
+            return new NotFoundException("Usuário não encontrado");
         });
     }
 
@@ -217,12 +217,12 @@ public class UserService implements UserDetailsService {
         org.springframework.security.core.userdetails.User userDetails = getUserDetails();
 
         if (userDetails == null) {
-            throw new UnauthorizedException("User not authenticated");
+            throw new UnauthorizedException("Usuário não autenticado");
         } else if (
                 !(userDetails.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN")))
                         && !userDetails.getUsername().equals(user.getEmail())
         ) {
-            throw new UnauthorizedException("User not authenticated");
+            throw new UnauthorizedException("Usuário não autenticado");
         }
     }
 

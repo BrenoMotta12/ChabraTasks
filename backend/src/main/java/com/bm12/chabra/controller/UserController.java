@@ -188,7 +188,7 @@ public class UserController {
             )
     })
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<GetUser> updateUser(@RequestBody @Valid UpdateUser updateUser) {
         return this.userService.updateUser(updateUser);
     }

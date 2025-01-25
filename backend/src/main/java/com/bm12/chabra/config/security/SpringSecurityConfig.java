@@ -5,6 +5,7 @@ package com.bm12.chabra.config.security;
 import com.bm12.chabra.model.enums.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * Configuração de segurança do Spring Security.
@@ -46,9 +48,10 @@ public class SpringSecurityConfig {
                                         "/users/signUp",            // Endpoint de cadastro de usuário
                                         "/users/auth"               // Endpoint de autenticação do usuário
                                 ).permitAll()// As rotas especificadas acima são acessíveis sem autenticação
-                                .requestMatchers(
-                                       "/users",
-                                        "/users/update").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers("/users", "/users/update").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/space/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.PUT, "/space").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.POST, "/space").hasRole(String.valueOf(UserRole.ADMIN))
                                 .anyRequest().authenticated()  // Todas as outras requisições precisam ser autenticadas
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Define a política de sessão como STATELESS (sem estado)
