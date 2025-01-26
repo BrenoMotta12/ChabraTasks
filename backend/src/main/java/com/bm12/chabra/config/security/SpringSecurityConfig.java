@@ -48,8 +48,8 @@ public class SpringSecurityConfig {
                                         "/users/signUp",            // Endpoint de cadastro de usuário
                                         "/users/auth"               // Endpoint de autenticação do usuário
                                 ).permitAll()// As rotas especificadas acima são acessíveis sem autenticação
-                                .requestMatchers("/users", "/users/update").hasRole(String.valueOf(UserRole.ADMIN))
-                                .requestMatchers(HttpMethod.DELETE, "/space/{id}", "/list/{id}", "/task/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers("/users", "/users/update", "/status", "/priority").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/space/{id}", "/list/{id}", "/task/{id}", "/status/{id}", "/priority/{id}").hasRole(String.valueOf(UserRole.ADMIN))
                                 .requestMatchers(HttpMethod.PUT, "/space", "/list").hasRole(String.valueOf(UserRole.ADMIN))
                                 .requestMatchers(HttpMethod.POST, "/space", "/list").hasRole(String.valueOf(UserRole.ADMIN))
                                 .anyRequest().authenticated()  // Todas as outras requisições precisam ser autenticadas

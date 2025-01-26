@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +30,7 @@ public class Task {
     private String description;
 
     @Column(name = "due_date")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn(name = "status_id")
@@ -68,7 +71,7 @@ public class Task {
             UUID id,
             String name,
             String description,
-            Date dueDate,
+            LocalDate dueDate,
             Status status,
             Priority priority,
             List<User> responsibles,
@@ -88,7 +91,15 @@ public class Task {
         this.completedAt = completedAt;
     }
 
-    public Task(String name, String description, Date dueDate, Status status, Priority priority, LocalDateTime createdAt, ListTask listTask) {
+    public Task(
+            String name,
+            String description,
+            LocalDate dueDate,
+            Status status,
+            Priority priority,
+            LocalDateTime createdAt,
+            ListTask listTask)
+    {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
@@ -120,11 +131,11 @@ public class Task {
         this.description = description;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

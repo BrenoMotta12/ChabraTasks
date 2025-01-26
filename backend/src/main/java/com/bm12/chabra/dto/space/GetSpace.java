@@ -1,6 +1,7 @@
 package com.bm12.chabra.dto.space;
 
 import com.bm12.chabra.model.Space;
+import com.bm12.chabra.model.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,12 +20,14 @@ public class GetSpace {
     @Schema(description = "Color of the space", example = "example")
     private String color;
 
+
     public GetSpace(UUID id, String name, String description, String color) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.color = color;
     }
+
 
     public GetSpace() {
     }

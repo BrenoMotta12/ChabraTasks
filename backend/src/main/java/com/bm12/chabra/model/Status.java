@@ -1,5 +1,6 @@
 package com.bm12.chabra.model;
 
+import com.bm12.chabra.dto.status.SaveStatus;
 import com.bm12.chabra.model.enums.StatusType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -42,6 +43,14 @@ public class Status {
         this.color = color;
         this.description = description;
         this.statusType = statusType;
+    }
+
+
+
+    public Status(SaveStatus saveStatus) {
+        this.color = saveStatus.getColor();
+        this.description = saveStatus.getDescription();
+        this.statusType = saveStatus.getStatusType();
     }
 
     public Status() {

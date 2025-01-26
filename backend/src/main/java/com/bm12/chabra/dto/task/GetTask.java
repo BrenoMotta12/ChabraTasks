@@ -3,7 +3,9 @@ package com.bm12.chabra.dto.task;
 import com.bm12.chabra.model.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +20,7 @@ public class GetTask {
 
     private String description;
 
-    private Date dueDate;
+    private LocalDate dueDate;
 
     private UUID statusId;
 
@@ -34,7 +36,19 @@ public class GetTask {
 
     private UUID listTaskId;
 
-    public GetTask(UUID id, String name, String description, Date dueDate, UUID statusId, UUID priorityId, List<UUID> responsibles, List<UUID> tags, LocalDateTime createdAt, LocalDateTime completedAt, UUID listTaskId) {
+    public GetTask(
+            UUID id,
+            String name,
+            String description,
+            LocalDate dueDate,
+            UUID statusId,
+            UUID priorityId,
+            List<UUID> responsibles,
+            List<UUID> tags,
+            LocalDateTime createdAt,
+            LocalDateTime completedAt,
+            UUID listTaskId)
+    {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -90,11 +104,11 @@ public class GetTask {
         this.description = description;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

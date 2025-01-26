@@ -5,6 +5,7 @@ import com.bm12.chabra.dto.list.GetList;
 import com.bm12.chabra.dto.list.SaveList;
 import com.bm12.chabra.dto.task.GetTask;
 import com.bm12.chabra.dto.task.SaveTask;
+import com.bm12.chabra.dto.task.UpdateTask;
 import com.bm12.chabra.model.Space;
 import com.bm12.chabra.model.Task;
 import com.bm12.chabra.service.TaskService;
@@ -50,6 +51,17 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") String id) {
         return this.taskService.delete(id);
+    }
+
+    /**
+     * Endpoint para atualizar uma tarefa existente.
+     *
+     * @param updateTask DTO contendo as informações da tarefa a ser atualizada.
+     * @return ResponseEntity contendo os dados da tarefa atualizada e o status HTTP 200 (OK).
+     * */
+    @PutMapping
+    public ResponseEntity<GetTask> update(@Valid @RequestBody UpdateTask updateTask) {
+        return this.taskService.update(updateTask);
     }
 
 }

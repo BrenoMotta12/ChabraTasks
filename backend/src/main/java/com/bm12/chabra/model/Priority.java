@@ -1,4 +1,6 @@
 package com.bm12.chabra.model;
+import com.bm12.chabra.dto.priority.SavePriority;
+import com.bm12.chabra.dto.priority.UpdatePriority;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -37,6 +39,12 @@ public class Priority {
     public Priority() {
     }
 
+    public Priority(SavePriority savePriority) {
+        this.description = savePriority.getDescription();
+        this.color  = savePriority.getColor();
+        this.priorityLevel = savePriority.getPriorityLevel();
+    }
+
     public UUID getId() {
         return id;
     }
@@ -71,5 +79,12 @@ public class Priority {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public void update(UpdatePriority updatePriority) {
+        this.priorityLevel = updatePriority.getPriorityLevel() != null ? updatePriority.getPriorityLevel() : this.priorityLevel;
+        this.color = updatePriority.getColor() != null ? updatePriority.getColor() : this.color;
+        this.description = updatePriority.getDescription() != null ? updatePriority.getDescription() : this.description;
+
     }
 }
