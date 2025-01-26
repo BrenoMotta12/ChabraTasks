@@ -1,7 +1,5 @@
 package com.bm12.chabra.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -11,9 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "task")
-@Table(name = "task")
-public class Task {
+@Entity(name = "sub_task")
+@Table(name = "subtask")
+public class SubTask {
 
     @Id
     @UuidGenerator
@@ -22,9 +20,6 @@ public class Task {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "description")
-    private String description;
 
     @Column(name = "due_date")
     private Date dueDate;
@@ -39,8 +34,8 @@ public class Task {
 
     @ManyToMany
     @JoinTable(
-            name = "task_user",
-            joinColumns = @JoinColumn(name = "task_id"),
+            name = "subtask_user",
+            joinColumns = @JoinColumn(name = "subtask_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> responsibles;
@@ -60,25 +55,11 @@ public class Task {
     private LocalDateTime completedAt;
 
     @ManyToOne
-    @JoinColumn(name = "list_task_id")
-    private ListTask listTask;
+    @JoinColumn(name = "task_id")
+    private Task task;
 
-
-    public Task(
-            UUID id,
-            String name,
-            String description,
-            Date dueDate,
-            Status status,
-            Priority priority,
-            List<User> responsibles,
-            List<Tag> tags,
-            LocalDateTime createdAt,
-            LocalDateTime completedAt
-    ) {
-        this.id = id;
+    public SubTask(UUID id, String name, Date dueDate, Status status, Priority priority, List<User> responsibles, List<Tag> tags, LocalDateTime createdAt, LocalDateTime completedAt, Task task) {
         this.name = name;
-        this.description = description;
         this.dueDate = dueDate;
         this.status = status;
         this.priority = priority;
@@ -86,19 +67,22 @@ public class Task {
         this.tags = tags;
         this.createdAt = createdAt;
         this.completedAt = completedAt;
+        this.task = task;
     }
 
-    public Task(String name, String description, Date dueDate, Status status, Priority priority, LocalDateTime createdAt, ListTask listTask) {
+    public SubTask(String name, Date dueDate, Status status, Priority priority, List<User> responsibles, List<Tag> tags, LocalDateTime createdAt, LocalDateTime completedAt, Task task) {
         this.name = name;
-        this.description = description;
         this.dueDate = dueDate;
         this.status = status;
         this.priority = priority;
+        this.responsibles = responsibles;
+        this.tags = tags;
         this.createdAt = createdAt;
-        this.listTask = listTask;
+        this.completedAt = completedAt;
+        this.task = task;
     }
 
-    public Task() {}
+    public SubTask() {}
 
     public UUID getId() {
         return id;
@@ -110,14 +94,6 @@ public class Task {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Date getDueDate() {
@@ -176,11 +152,11 @@ public class Task {
         this.completedAt = completedAt;
     }
 
-    public ListTask getListTask() {
-        return listTask;
+    public Task getTask() {
+        return task;
     }
 
-    public void setListTask(ListTask listTask) {
-        this.listTask = listTask;
+    public void setTask(Task task) {
+        this.task = task;
     }
 }

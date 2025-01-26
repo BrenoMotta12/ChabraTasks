@@ -38,6 +38,9 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "responsibles")
     private List<Task> tasks;
 
+    @ManyToMany(mappedBy = "responsibles")
+    private List<SubTask> subTasks;
+
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 

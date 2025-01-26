@@ -31,8 +31,6 @@ import java.util.UUID;
 @Tag(name = "User")
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -45,24 +43,6 @@ public class UserController {
      * @param saveUser DTO contendo as informações do usuário a ser cadastrado.
      * @return ResponseEntity contendo os dados do usuário recém-cadastrado.
      */
-    @Operation(summary = "Create a new user", description = "Creates a new user in the system.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "User successfully registered",
-                    content = {@Content(schema = @Schema(implementation = GetUser.class))}
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid registration data",
-                    content = @Content(schema = @Schema(implementation = FormException.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content(schema = @Schema(type = ""))
-            ),
-    })
     @PostMapping("/signUp")
     public ResponseEntity<GetUser> signUp(@RequestBody @Valid SaveUser saveUser) {
         System.out.println(saveUser);
@@ -75,25 +55,6 @@ public class UserController {
      * @param authUser DTO contendo as credenciais de autenticação.
      * @return ResponseEntity contendo o token de autenticação caso as credenciais estejam corretas.
      */
-    @Operation(summary = "Authenticate a user", description = "Authenticates the user and returns a JWT token.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully authenticated",
-                    content = @Content(schema = @Schema(type = "string"))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content(schema = @Schema(type = ""))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "User not found",
-                    content = @Content(schema = @Schema(type = "string"))
-            ),
-
-    })
     @PostMapping("/auth")
     public ResponseEntity<String> auth(@RequestBody @Valid AuthUser authUser) {
         return this.userService.auth(authUser);
@@ -104,24 +65,6 @@ public class UserController {
      *
      * @return ResponseEntity contendo uma lista de objetos GetUser representando todos os usuários.
      */
-    @Operation(summary = "List users", description = "Returns a list of all registered users.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully retrieved user list",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = GetUser.class)))
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad Request",
-                    content = @Content(schema = @Schema(type = ""))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content(schema = @Schema(type = ""))
-            )
-    })
     @GetMapping
     public ResponseEntity<List<GetUser>> getAllUsers() {
         return this.userService.getAllUsers();
@@ -135,24 +78,6 @@ public class UserController {
      * @param id UUID do usuário que será recuperado.
      * @return ResponseEntity contendo os dados do usuário identificado pelo ID.
      */
-    @Operation(summary = "Get a user", description = "Fetches and returns a user by their ID.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "User found",
-                    content = @Content(schema = @Schema(implementation = GetUser.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content(schema = @Schema(type = ""))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "User not found",
-                    content = @Content(schema = @Schema(type = "string"))
-            )
-    })
     @GetMapping("/{id}")
     public ResponseEntity<GetUser> getUserById(@PathVariable UUID id) {
         return this.userService.getUserById(id);
@@ -164,30 +89,6 @@ public class UserController {
      * @param updateUser DTO contendo as novas informações do usuário a ser atualizado.
      * @return ResponseEntity contendo os dados atualizados do usuário.
      */
-    @Operation(summary = "Update user", description = "Updates the information of an existing user.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "User successfully updated",
-                    content = @Content(schema = @Schema(implementation = GetUser.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content(schema = @Schema(type = ""))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "User not found",
-                    content = @Content(schema = @Schema(type = "string"))
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid data for update",
-                    content = @Content(schema = @Schema(implementation = FormException.class))
-            )
-    })
-
     @PutMapping
     public ResponseEntity<GetUser> updateUser(@RequestBody @Valid UpdateUser updateUser) {
         return this.userService.updateUser(updateUser);

@@ -1,6 +1,7 @@
 package com.bm12.chabra.model;
 
 import com.bm12.chabra.model.enums.StatusType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 import java.util.List;
@@ -35,6 +36,12 @@ public class Status {
         this.color = color;
         this.statusType = statusType;
         this.tasks = tasks;
+    }
+
+    public Status(String color,String description, StatusType statusType) {
+        this.color = color;
+        this.description = description;
+        this.statusType = statusType;
     }
 
     public Status() {

@@ -2,7 +2,7 @@ package com.bm12.chabra.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +18,9 @@ public class ListTask {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "color", nullable = false)
     private String color;
     @ManyToOne
@@ -27,18 +30,29 @@ public class ListTask {
     @OneToMany(mappedBy = "listTask")
     private List<Task> tasks;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
-    public ListTask(UUID id, String name, String color, Space space, List<Task> tasks) {
+
+    public ListTask(UUID id, String name, String description, String color, Space space) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.color = color;
         this.space = space;
-        this.tasks = tasks;
+    }
+
+    public ListTask(String name, String description, String color, Space space) {
+        this.name = name;
+        this.description = description;
+        this.color = color;
+        this.space = space;
     }
 
     public ListTask() {
 
     }
+
 
     public UUID getId() {
         return id;
@@ -74,5 +88,21 @@ public class ListTask {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

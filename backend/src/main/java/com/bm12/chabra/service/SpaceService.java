@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -68,6 +69,15 @@ public class SpaceService {
             return ResponseEntity.ok(GetSpace.converter(space));
         } catch (Exception e) {
             throw new RuntimeException("Error updating space" + e);
+        }
+    }
+
+    public ResponseEntity<List<Space>> getAll() {
+
+        try {
+            return ResponseEntity.ok(this.spaceRepository.findAll());
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting spaces" + e);
         }
     }
 }

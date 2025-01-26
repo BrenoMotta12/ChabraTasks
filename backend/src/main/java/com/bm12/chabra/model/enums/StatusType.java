@@ -4,7 +4,7 @@ public enum StatusType {
 
     NOT_STARTED("Não iniciado"),
     IN_PROGRESS("Em progresso"),
-    COMPLETED("Completado");
+    COMPLETED("Concluído");
 
     private String statusType;
 
