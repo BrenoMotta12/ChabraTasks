@@ -1,16 +1,14 @@
 package com.bm12.chabra.service;
 
-import com.bm12.chabra.config.validation.AlreadyExistsException;
 import com.bm12.chabra.config.validation.NotFoundException;
+import com.bm12.chabra.dto.list.GetList;
 import com.bm12.chabra.dto.space.GetSpace;
 import com.bm12.chabra.dto.space.SaveSpace;
 import com.bm12.chabra.dto.space.UpdateSpace;
-import com.bm12.chabra.dto.user.GetUser;
-import com.bm12.chabra.dto.user.SaveUser;
 import com.bm12.chabra.model.Space;
 import com.bm12.chabra.model.User;
-import com.bm12.chabra.model.enums.UserRole;
 import com.bm12.chabra.repository.SpaceRepository;
+import com.bm12.chabra.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +20,11 @@ import java.util.UUID;
 public class SpaceService {
 
     private final SpaceRepository spaceRepository;
+    private final UserRepository userRepository;
 
-    public SpaceService(SpaceRepository spaceRepository) {
+    public SpaceService(SpaceRepository spaceRepository, UserRepository userRepository) {
         this.spaceRepository = spaceRepository;
+        this.userRepository = userRepository;
     }
 
     public ResponseEntity<GetSpace> create(SaveSpace saveSpace) {
@@ -36,7 +36,7 @@ public class SpaceService {
         try {
             // Cria um novo Espaço
             space = this.spaceRepository.save(space);
-            return ResponseEntity.created(URI.create("/space/" + space.getId())).body(GetSpace.converter(space));
+            return ResponseEntity.created(URI.create("/space/" + space.getId())).body(new GetSpace(space));
         } catch (Exception e) {
             throw new RuntimeException("Error creating space");
         }
@@ -66,18 +66,41 @@ public class SpaceService {
             space.setDescription(updateSpace.getDescription() != null ? updateSpace.getDescription(): space.getDescription());
             space.setColor(updateSpace.getColor() != null ? updateSpace.getColor(): space.getColor());
             space = this.spaceRepository.save(space);
-            return ResponseEntity.ok(GetSpace.converter(space));
+            return ResponseEntity.ok(new GetSpace(space));
         } catch (Exception e) {
             throw new RuntimeException("Error updating space" + e);
         }
     }
 
-    public ResponseEntity<List<Space>> getAll() {
+    public ResponseEntity<List<GetSpace>> getAll() {
 
-        try {
-            return ResponseEntity.ok(this.spaceRepository.findAll());
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting spaces" + e);
+        org.springframework.security.core.userdetails.User userDetails = UserService.GetUserIfNotAdminOrModerator();
+
+
+        if (userDetails != null) {
+            /*
+             * Se o userdetails for diferente de null, significa que o usuário tem somente permição "ROLE_USER", podendo acessar
+             * somente os espaços em que existe uma tarefa que ela é responsável.
+             * */
+            User user = this.userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User not found"));
+            try {
+                List<Space> spaces = this.spaceRepository.findSpacesByUserResponsavel(user.getId());
+                return ResponseEntity.ok(spaces.stream().map(GetSpace::new).toList());
+            } catch (Exception e) {
+                throw new RuntimeException("Error getting spaces" + e);
+            }
+        } else {
+            /*
+            *  Se o userdetails for null, o usuário é administrador ou moderador, podendo ver todos os espaços.
+            * */
+            try {
+                List<Space> spaces = this.spaceRepository.findAll();
+                return ResponseEntity.ok(spaces.stream().map(GetSpace::new).toList());
+            } catch (Exception e) {
+                throw new RuntimeException("Error getting spaces" + e);
+            }
         }
+
+
     }
 }

@@ -10,6 +10,7 @@ import com.bm12.chabra.dto.user.UpdateUser;
 import com.bm12.chabra.model.User;
 import com.bm12.chabra.model.enums.UserRole;
 import com.bm12.chabra.repository.UserRepository;
+import jakarta.activation.DataHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -80,7 +81,7 @@ public class UserService implements UserDetailsService {
         try {
             // Cria um novo usuário
             user = this.userRepository.save(user);
-            return ResponseEntity.created(URI.create("/users/" + user.getId())).body(GetUser.converter(user));
+            return ResponseEntity.created(URI.create("/users/" + user.getId())).body(new GetUser(user));
         } catch (Exception e) {
             throw new RuntimeException("Error creating user");
         }
@@ -101,7 +102,7 @@ public class UserService implements UserDetailsService {
             // Converte a lista de users para uma lista de GetUser
             List<GetUser> listGetUser = new ArrayList<>();
             for (User l : listUser) {
-                listGetUser.add(GetUser.converter(l));
+                listGetUser.add(new GetUser(l));
             }
 
             return ResponseEntity.ok(listGetUser);
@@ -124,7 +125,7 @@ public class UserService implements UserDetailsService {
         // Verifica se o usuário está permitido a acessar essa funcionalidade
         VerifyUserPermission(user);
 
-        return ResponseEntity.ok(GetUser.converter(user));
+        return ResponseEntity.ok(new GetUser(user));
 
     }
 
@@ -168,7 +169,7 @@ public class UserService implements UserDetailsService {
 
         try {
             user = this.userRepository.save(user);
-            return ResponseEntity.ok(GetUser.converter(user));
+            return ResponseEntity.ok(new GetUser(user));
         } catch (Exception e) {
             throw new RuntimeException("Error updating user");
 
@@ -226,6 +227,22 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public static org.springframework.security.core.userdetails.User GetUserIfNotAdminOrModerator() {
+
+        org.springframework.security.core.userdetails.User userDetails = getUserDetails();
+
+        if (userDetails == null) {
+            throw new UnauthorizedException("Usuário não autenticado");
+        } else if (userDetails.getAuthorities().stream().anyMatch(auth ->
+                auth.getAuthority().equals("ROLE_ADMIN")
+                || auth.getAuthority().equals("ROLE_MODERATOR")))
+        {
+            return null;
+        }
+        return userDetails;
+
+    }
+
     private static org.springframework.security.core.userdetails.User getUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -236,4 +253,5 @@ public class UserService implements UserDetailsService {
 
         return null;
     }
+
 }

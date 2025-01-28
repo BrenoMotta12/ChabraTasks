@@ -1,5 +1,6 @@
 package com.bm12.chabra.dto.task;
 
+import com.bm12.chabra.dto.user.GetUser;
 import com.bm12.chabra.model.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -26,7 +27,7 @@ public class GetTask {
 
     private UUID priorityId;
 
-    private List<UUID> responsibles;
+    private List<GetUser> responsibles;
 
     private List<UUID> tags;
 
@@ -43,7 +44,7 @@ public class GetTask {
             LocalDate dueDate,
             UUID statusId,
             UUID priorityId,
-            List<UUID> responsibles,
+            List<GetUser> responsibles,
             List<UUID> tags,
             LocalDateTime createdAt,
             LocalDateTime completedAt,
@@ -70,7 +71,7 @@ public class GetTask {
         this.statusId = task.getStatus() != null ? task.getStatus().getId() : null;
         this.priorityId = task.getPriority() != null ? task.getPriority().getId() : null;
         this.responsibles = task.getResponsibles() != null
-                ? task.getResponsibles().stream().map(User::getId).toList()
+                ? task.getResponsibles().stream().map(GetUser::new).toList()
                 : List.of();
         this.tags = task.getTags() != null
                 ? task.getTags().stream().map(Tag::getId).toList()
@@ -128,11 +129,11 @@ public class GetTask {
         this.priorityId = priorityId;
     }
 
-    public List<UUID> getResponsibles() {
+    public List<GetUser> getResponsibles() {
         return responsibles;
     }
 
-    public void setResponsibles(List<UUID> responsibles) {
+    public void setResponsibles(List<GetUser> responsibles) {
         this.responsibles = responsibles;
     }
 

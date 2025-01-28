@@ -28,12 +28,17 @@ public class GetList {
         this.color = color;
     }
 
+    public GetList(ListTask listTask) {
+        this.id = listTask.getId();
+        this.name = listTask.getName();
+        this.description = listTask.getDescription();
+        this.color = listTask.getColor();
+    }
+
     public GetList() {
     }
 
-    public static GetList converter(ListTask listTask) {
-        return new GetList(listTask.getId(), listTask.getName(), listTask.getDescription(), listTask.getColor());
-    }
+
 
     public UUID getId() {
         return id;

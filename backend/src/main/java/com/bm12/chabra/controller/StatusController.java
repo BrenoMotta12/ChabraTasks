@@ -54,4 +54,7 @@ public class StatusController {
     public ResponseEntity<String> delete(@PathVariable("id") UUID id) {
         return this.statusService.delete(id);
     }
+
+
+
 }

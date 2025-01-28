@@ -3,6 +3,7 @@ package com.bm12.chabra.service;
 import com.bm12.chabra.dto.list.GetList;
 import com.bm12.chabra.dto.task.GetTask;
 import com.bm12.chabra.dto.task.SaveTask;
+import com.bm12.chabra.dto.task.SaveTaskResponsibles;
 import com.bm12.chabra.dto.task.UpdateTask;
 import com.bm12.chabra.model.*;
 import com.bm12.chabra.model.enums.StatusType;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -101,6 +103,30 @@ public class TaskService {
             task.setName(updateTask.getName() != null ? updateTask.getName() : task.getName());
             task.setDescription(updateTask.getDescription() != null ? updateTask.getDescription() : task.getDescription());
             task.setDueDate(updateTask.getDueDate() != null ? updateTask.getDueDate() : task.getDueDate());
+            this.taskRespository.save(task);
+            return ResponseEntity.ok().body(new GetTask(task));
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating task" + e);
+        }
+
+    }
+
+    public ResponseEntity<GetTask> setResponsibles(SaveTaskResponsibles saveTaskResponsibles) {
+
+        // Verifica se a task existe
+        Task task = this.taskRespository.findById(saveTaskResponsibles.getTaskId()).orElseThrow(() -> new RuntimeException("Task not found"));
+
+        // Se os usuarios responsaveis forem informados, verifica a existencia deles e adiciona na lista.
+        List<User> users = new ArrayList<>(List.of());
+        if (saveTaskResponsibles.getResponsibles() != null) {
+            for (UUID userId : saveTaskResponsibles.getResponsibles()) {
+                User user = this.userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+                users.add(user);
+            }
+        }
+
+        try {
+            task.setResponsibles(users);
             this.taskRespository.save(task);
             return ResponseEntity.ok().body(new GetTask(task));
         } catch (Exception e) {

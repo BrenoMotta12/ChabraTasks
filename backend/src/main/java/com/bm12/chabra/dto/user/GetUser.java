@@ -26,23 +26,15 @@ public class GetUser {
         this.role = role;
     }
 
+    public GetUser(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.role = user.getRole();
+    }
+
     public GetUser () {}
 
-
-    /**
-     * Metodo que recebe um usuário e converte para um GetUser
-     *
-     * @param user usuário
-     * @return GetUser
-     * */
-    public static GetUser converter(User user) {
-        return new GetUser(
-                user.getId(),
-                user.getEmail(),
-                user.getName(),
-                user.getRole()
-        );
-    }
 
 
     public UUID getId() {

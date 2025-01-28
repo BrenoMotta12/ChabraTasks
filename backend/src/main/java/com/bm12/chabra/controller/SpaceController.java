@@ -1,16 +1,10 @@
 package com.bm12.chabra.controller;
 
-import com.bm12.chabra.config.validation.FormException;
 import com.bm12.chabra.dto.space.GetSpace;
 import com.bm12.chabra.dto.space.SaveSpace;
 import com.bm12.chabra.dto.space.UpdateSpace;
 import com.bm12.chabra.model.Space;
 import com.bm12.chabra.service.SpaceService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +66,7 @@ public class SpaceController {
      * @return ResponseEntity contendo os dados dos espaços e o status HTTP 200 (OK).
      */
     @GetMapping()
-    public ResponseEntity<List<Space>> getAll() {
+    public ResponseEntity<List<GetSpace>> getAll() {
         return this.spaceService.getAll();
     }
 

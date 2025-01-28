@@ -3,9 +3,7 @@ package com.bm12.chabra.controller;
 import com.bm12.chabra.config.validation.FormException;
 import com.bm12.chabra.dto.list.GetList;
 import com.bm12.chabra.dto.list.SaveList;
-import com.bm12.chabra.dto.task.GetTask;
-import com.bm12.chabra.dto.task.SaveTask;
-import com.bm12.chabra.dto.task.UpdateTask;
+import com.bm12.chabra.dto.task.*;
 import com.bm12.chabra.model.Space;
 import com.bm12.chabra.model.Task;
 import com.bm12.chabra.service.TaskService;
@@ -40,6 +38,17 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<GetTask> create(@RequestBody @Valid SaveTask saveTask) {
         return this.taskService.create(saveTask);
+    }
+
+    /**
+     * Endpoint setar os responsáveis pela tarefa.
+     *
+     * @param saveTaskResponsibles DTO contendo as informações da tarefas e usuários a serem setados como responsáveis
+     * @return ResponseEntity contendo os novos responsáveis pela tarefa.
+     */
+    @PostMapping("/responsibles")
+    public ResponseEntity<GetTask> setResposibles(@RequestBody @Valid SaveTaskResponsibles saveTaskResponsibles) {
+        return this.taskService.setResponsibles(saveTaskResponsibles);
     }
 
     /**

@@ -39,7 +39,7 @@ public class ListSevice {
         try {
             // Cria um novo Espaço
             listTask = this.listRepository.save(listTask);
-            return ResponseEntity.created(URI.create("/list/" + listTask.getId())).body(GetList.converter(listTask));
+            return ResponseEntity.created(URI.create("/list/" + listTask.getId())).body(new GetList(listTask));
         } catch (Exception e) {
             throw new RuntimeException("Error creating list");
         }
@@ -69,7 +69,7 @@ public class ListSevice {
             listTask.setDescription(updateList.getDescription() != null ? updateList.getDescription(): listTask.getDescription());
             listTask.setColor(updateList.getColor() != null ? updateList.getColor(): listTask.getColor());
             listTask = this.listRepository.save(listTask);
-            return ResponseEntity.ok(GetList.converter(listTask));
+            return ResponseEntity.ok(new GetList(listTask));
         } catch (Exception e) {
             throw new RuntimeException("Error updating list" + e);
         }
