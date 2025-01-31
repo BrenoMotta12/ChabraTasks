@@ -11,7 +11,7 @@ export default function Login() {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
-    const { user, login } = useAuth()
+    const { login } = useAuth()
     const nav = useNavigate()
 
     const handleLogin = async (event: FormEvent) => {
