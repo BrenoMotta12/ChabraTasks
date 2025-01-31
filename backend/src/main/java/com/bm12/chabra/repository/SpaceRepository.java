@@ -13,12 +13,11 @@ import java.util.UUID;
 @Repository
 public interface SpaceRepository extends JpaRepository<Space, UUID> {
 
-    @Query("SELECT DISTINCT s " +
-            "FROM space s " +
+
+    @Query("SELECT DISTINCT s FROM space s " +
             "JOIN s.list l " +
             "JOIN l.tasks t " +
             "JOIN t.responsibles r " +
             "WHERE r.id = :userId")
     List<Space> findSpacesByUserResponsavel(@Param("userId") UUID userId);
-
 }

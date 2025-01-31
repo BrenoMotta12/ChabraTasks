@@ -18,6 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/task")
 @Tag(name = "Task")
@@ -71,6 +74,11 @@ public class TaskController {
     @PutMapping
     public ResponseEntity<GetTask> update(@Valid @RequestBody UpdateTask updateTask) {
         return this.taskService.update(updateTask);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<GetTask>> getAllFromList(@PathVariable("id") UUID id) {
+        return this.taskService.getAllFromList(id);
     }
 
 }

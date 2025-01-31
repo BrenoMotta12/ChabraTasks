@@ -1,6 +1,8 @@
 package com.bm12.chabra.service;
 
+import com.bm12.chabra.config.validation.NotFoundException;
 import com.bm12.chabra.dto.list.GetList;
+import com.bm12.chabra.dto.space.GetSpace;
 import com.bm12.chabra.dto.task.GetTask;
 import com.bm12.chabra.dto.task.SaveTask;
 import com.bm12.chabra.dto.task.SaveTaskResponsibles;
@@ -133,5 +135,33 @@ public class TaskService {
             throw new RuntimeException("Error updating task" + e);
         }
 
+    }
+
+    public ResponseEntity<List<GetTask>> getAllFromList(UUID id) {
+
+        org.springframework.security.core.userdetails.User userDetails = UserService.GetUserIfNotAdminOrModerator();
+        if (userDetails != null) {
+            /*
+             * Se o userdetails for diferente de null, significa que o usuário tem somente permição "ROLE_USER", podendo acessar
+             * somente os espaços em que existe uma tarefa que ela é responsável.
+             * */
+            User user = this.userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User not found"));
+            try {
+                List<Task> task = this.taskRespository.findTaskByListId(user.getId());
+                return ResponseEntity.ok(task.stream().map(GetTask::new).toList());
+            } catch (Exception e) {
+                throw new RuntimeException("Error getting tasks" + e);
+            }
+        } else {
+            /*
+             *  Se o userdetails for null, o usuário é administrador ou moderador, podendo ver todos os espaços.
+             * */
+            try {
+                List<Task> tasks = this.taskRespository.findAll();
+                return ResponseEntity.ok(tasks.stream().map(GetTask::new).toList());
+            } catch (Exception e) {
+                throw new RuntimeException("Error getting tasks" + e);
+            }
+        }
     }
 }

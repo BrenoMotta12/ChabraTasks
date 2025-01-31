@@ -1,10 +1,7 @@
 package com.bm12.chabra.controller;
 
 import com.bm12.chabra.config.validation.FormException;
-import com.bm12.chabra.dto.user.AuthUser;
-import com.bm12.chabra.dto.user.GetUser;
-import com.bm12.chabra.dto.user.SaveUser;
-import com.bm12.chabra.dto.user.UpdateUser;
+import com.bm12.chabra.dto.user.*;
 import com.bm12.chabra.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -56,7 +53,7 @@ public class UserController {
      * @return ResponseEntity contendo o token de autenticação caso as credenciais estejam corretas.
      */
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@RequestBody @Valid AuthUser authUser) {
+    public ResponseEntity<GetAuthUser> auth(@RequestBody @Valid AuthUser authUser) {
         return this.userService.auth(authUser);
     }
 

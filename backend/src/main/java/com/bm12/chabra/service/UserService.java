@@ -3,10 +3,7 @@ package com.bm12.chabra.service;
 import com.bm12.chabra.config.validation.AlreadyExistsException;
 import com.bm12.chabra.config.validation.NotFoundException;
 import com.bm12.chabra.config.validation.UnauthorizedException;
-import com.bm12.chabra.dto.user.AuthUser;
-import com.bm12.chabra.dto.user.GetUser;
-import com.bm12.chabra.dto.user.SaveUser;
-import com.bm12.chabra.dto.user.UpdateUser;
+import com.bm12.chabra.dto.user.*;
 import com.bm12.chabra.model.User;
 import com.bm12.chabra.model.enums.UserRole;
 import com.bm12.chabra.repository.UserRepository;
@@ -184,7 +181,7 @@ public class UserService implements UserDetailsService {
      * @param authUser Objeto com email e senha
      * @return Token JWT
      */
-    public ResponseEntity<String> auth(AuthUser authUser) {
+    public ResponseEntity<GetAuthUser> auth(AuthUser authUser) {
         User user = this.userRepository.findByEmail(authUser.getEmail()).orElseThrow(() -> {
             return new NotFoundException("Usuário não encontrado");
         });
@@ -196,7 +193,7 @@ public class UserService implements UserDetailsService {
 
         // Gera o token do usuário
         String token = this.jwtService.generateToken(user);
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new GetAuthUser(user, token));
     }
 
 

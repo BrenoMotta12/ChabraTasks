@@ -81,6 +81,7 @@ public class GetTask {
         this.listTaskId = task.getListTask() != null ? task.getListTask().getId() : null;
     }
 
+
     public UUID getId() {
         return id;
     }
