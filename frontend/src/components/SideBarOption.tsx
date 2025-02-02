@@ -5,9 +5,10 @@ interface SideBarOptionProps {
     text: string;
     icon: string;
     link: string;
+    sideBarOpen: boolean;
 }
 
-export default function SideBarOption({text, icon, link}: SideBarOptionProps) {
+export default function SideBarOption({text, icon, link, sideBarOpen}: SideBarOptionProps) {
   return (
     <NavLink
         to={link}
@@ -15,7 +16,7 @@ export default function SideBarOption({text, icon, link}: SideBarOptionProps) {
     >
         <div className='flex items-center w-full gap-4 p-2'>
             <img src={icon} alt="" className='h-7 '/>
-            <h1 className='text-xl'>{text}</h1>
+            {sideBarOpen && <h1 className='text-xl'>{text}</h1>}
         </div>
     </NavLink>
   )

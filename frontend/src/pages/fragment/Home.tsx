@@ -1,7 +1,7 @@
 import React from 'react'
 import homeIcon from '../assets/home.svg'
 import useAuth from '../../hooks/useAuth'
-import Fragment from '../../components/fragment'
+import Fragment from '../../components/Fragment'
 
 export default function Home() {
 
