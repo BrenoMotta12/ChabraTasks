@@ -14,6 +14,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
 
 /**
  * Configuração de segurança do Spring Security.
@@ -59,6 +64,7 @@ public class SpringSecurityConfig {
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)  // Adiciona o filtro JWT antes do filtro padrão de autenticação de usuário/senha
                 .build();  // Constrói e retorna o filtro de segurança configurado
     }
+
 }
 
 
