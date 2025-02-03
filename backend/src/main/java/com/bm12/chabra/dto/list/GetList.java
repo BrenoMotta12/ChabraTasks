@@ -9,27 +9,30 @@ import java.util.UUID;
 
 public class GetList {
 
-    @NotEmpty(message = "Name cannot be empty")
-    @Schema(description = "ID of the space", example = "example")
+
     private UUID id;
-    @Schema(description = "Name of the space", example = "example")
+
+    private UUID spaceId;
+
     private String name;
 
-    @Schema(description = "Description of the space", example = "example")
+
     private String description;
 
-    @Schema(description = "Color of the space", example = "example")
+
     private String color;
 
-    public GetList(UUID id, String name, String description, String color) {
+    public GetList(UUID id, String name, String description, String color, UUID spaceId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.color = color;
+        this.spaceId = spaceId;
     }
 
     public GetList(ListTask listTask) {
         this.id = listTask.getId();
+        this.spaceId = listTask.getSpace().getId();
         this.name = listTask.getName();
         this.description = listTask.getDescription();
         this.color = listTask.getColor();
@@ -70,6 +73,14 @@ public class GetList {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public UUID getSpaceId() {
+        return spaceId;
+    }
+
+    public void setSpaceId(UUID spaceId) {
+        this.spaceId = spaceId;
     }
 }
 

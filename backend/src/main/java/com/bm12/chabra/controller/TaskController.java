@@ -76,8 +76,8 @@ public class TaskController {
         return this.taskService.update(updateTask);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<GetTask>> getAllFromList(@PathVariable("id") UUID id) {
+    @GetMapping("/byList/{id}")
+    public ResponseEntity<List<GetTask>> getAllFromList(@PathVariable("id") String id) {
         return this.taskService.getAllFromList(id);
     }
 

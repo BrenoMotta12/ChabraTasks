@@ -1,6 +1,5 @@
 package com.bm12.chabra.repository;
 
-import com.bm12.chabra.dto.space.SaveSpace;
 import com.bm12.chabra.model.Space;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +18,5 @@ public interface SpaceRepository extends JpaRepository<Space, UUID> {
             "JOIN l.tasks t " +
             "JOIN t.responsibles r " +
             "WHERE r.id = :userId")
-    List<Space> findSpacesByUserResponsavel(@Param("userId") UUID userId);
+    List<Space> findSpacesByUserResponsible(@Param("userId") UUID userId);
 }

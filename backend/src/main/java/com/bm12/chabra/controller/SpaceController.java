@@ -3,9 +3,7 @@ package com.bm12.chabra.controller;
 import com.bm12.chabra.dto.space.GetSpace;
 import com.bm12.chabra.dto.space.SaveSpace;
 import com.bm12.chabra.dto.space.UpdateSpace;
-import com.bm12.chabra.model.Space;
 import com.bm12.chabra.service.SpaceService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/space")
-@Tag(name = "Space")
+@CrossOrigin(origins = "*")
 public class SpaceController {
 
     private final SpaceService spaceService;
@@ -68,6 +66,16 @@ public class SpaceController {
     @GetMapping()
     public ResponseEntity<List<GetSpace>> getAll() {
         return this.spaceService.getAll();
+    }
+
+    /**
+     * Endpoint obter um espaço.
+     *
+     * @return ResponseEntity contendo os dados do espaço e o status HTTP 200 (OK).
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<GetSpace> getById(@PathVariable String id) {
+        return this.spaceService.getById(id);
     }
 
 }

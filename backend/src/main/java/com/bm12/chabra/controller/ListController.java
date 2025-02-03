@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -69,6 +70,16 @@ public class ListController {
     @PutMapping()
     public ResponseEntity<GetList> update(@RequestBody @Valid UpdateList updateList) {
         return this.listSevice.update(updateList);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetList>> getAll() {
+        return this.listSevice.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetList> getById(@PathVariable String id) {
+        return this.listSevice.getById(id);
     }
 
 }

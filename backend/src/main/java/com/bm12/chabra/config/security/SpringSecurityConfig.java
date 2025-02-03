@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -42,7 +44,8 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)  // Desabilita proteção CSRF (Cross-Site Request Forgery)
-                .cors(AbstractHttpConfigurer::disable)  // Desabilita suporte a CORS (Cross-Origin Resource Sharing)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Desabilita proteção CORS (Cross-Origin Resource Sharing)
+                .authenticationProvider(provider)  // Configura o provedor de autenticação personalizado
                 .authorizeHttpRequests( // Configura as permissões para as requisições HTTP
                         auth -> auth
                                 .requestMatchers( // Permissões de acesso publico:
@@ -51,18 +54,36 @@ public class SpringSecurityConfig {
                                         "/swagger-ui/**",           // Interface do Swagger
                                         "/swagger-ui.html",         // Arquivo HTML do Swagger
                                         "/users/signUp",            // Endpoint de cadastro de usuário
-                                        "/users/auth"               // Endpoint de autenticação do usuário
+                                        "/users/auth"              // Endpoint de autenticação do usuário
                                 ).permitAll()// As rotas especificadas acima são acessíveis sem autenticação
                                 .requestMatchers("/users", "/users/update", "/status", "/priority").hasRole(String.valueOf(UserRole.ADMIN))
-                                .requestMatchers(HttpMethod.DELETE, "/space/{id}", "/list/{id}", "/task/{id}", "/status/{id}", "/priority/{id}").hasRole(String.valueOf(UserRole.ADMIN))
-                                .requestMatchers(HttpMethod.PUT, "/space", "/list").hasRole(String.valueOf(UserRole.ADMIN))
-                                .requestMatchers(HttpMethod.POST, "/space", "/list").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/space/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/list/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/task/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/status/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.DELETE, "/priority/{id}").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.PUT, "/space").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.PUT, "/list").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.POST, "/space").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.POST, "/list").hasRole(String.valueOf(UserRole.ADMIN))
                                 .anyRequest().authenticated()  // Todas as outras requisições precisam ser autenticadas
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Define a política de sessão como STATELESS (sem estado)
-                .authenticationProvider(provider)  // Configura o provedor de autenticação personalizado
+                  // Configura o provedor de autenticação personalizado
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)  // Adiciona o filtro JWT antes do filtro padrão de autenticação de usuário/senha
                 .build();  // Constrói e retorna o filtro de segurança configurado
+    }
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
 }

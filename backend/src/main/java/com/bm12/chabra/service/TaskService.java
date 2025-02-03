@@ -137,9 +137,11 @@ public class TaskService {
 
     }
 
-    public ResponseEntity<List<GetTask>> getAllFromList(UUID id) {
+    public ResponseEntity<List<GetTask>> getAllFromList(String id) {
 
         org.springframework.security.core.userdetails.User userDetails = UserService.GetUserIfNotAdminOrModerator();
+        ListTask listTask = this.listRepository.findById(UUID.fromString(id)).orElseThrow(() -> new NotFoundException("List not found"));
+
         if (userDetails != null) {
             /*
              * Se o userdetails for diferente de null, significa que o usuário tem somente permição "ROLE_USER", podendo acessar
@@ -147,7 +149,7 @@ public class TaskService {
              * */
             User user = this.userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User not found"));
             try {
-                List<Task> task = this.taskRespository.findTaskByListId(user.getId());
+                List<Task> task = this.taskRespository.findTaskByListIdAndResponsible(listTask.getId(), user.getId());
                 return ResponseEntity.ok(task.stream().map(GetTask::new).toList());
             } catch (Exception e) {
                 throw new RuntimeException("Error getting tasks" + e);
@@ -157,7 +159,7 @@ public class TaskService {
              *  Se o userdetails for null, o usuário é administrador ou moderador, podendo ver todos os espaços.
              * */
             try {
-                List<Task> tasks = this.taskRespository.findAll();
+                List<Task> tasks = this.taskRespository.findTaskByListId(listTask.getId());
                 return ResponseEntity.ok(tasks.stream().map(GetTask::new).toList());
             } catch (Exception e) {
                 throw new RuntimeException("Error getting tasks" + e);

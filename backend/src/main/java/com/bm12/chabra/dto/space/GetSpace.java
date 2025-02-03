@@ -22,7 +22,6 @@ public class GetSpace {
     @Schema(description = "Color of the space", example = "example")
     private String color;
 
-    private List<GetList> lists;
 
 
     public GetSpace(UUID id, String name, String description, String color) {
@@ -37,7 +36,6 @@ public class GetSpace {
         this.name = space.getName();
         this.description = space.getDescription();
         this.color = space.getColor();
-        this.lists = space.getList().stream().map(GetList::new).toList();
     }
 
 
@@ -78,13 +76,6 @@ public class GetSpace {
         this.color = color;
     }
 
-    public List<GetList> getLists() {
-        return lists;
-    }
-
-    public void setLists(List<GetList> lists) {
-        this.lists = lists;
-    }
 }
 
 

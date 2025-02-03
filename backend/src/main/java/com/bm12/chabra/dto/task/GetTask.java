@@ -1,5 +1,7 @@
 package com.bm12.chabra.dto.task;
 
+import com.bm12.chabra.dto.priority.GetPriority;
+import com.bm12.chabra.dto.status.GetStatus;
 import com.bm12.chabra.dto.user.GetUser;
 import com.bm12.chabra.model.*;
 import jakarta.persistence.*;
@@ -18,14 +20,13 @@ public class GetTask {
 
     private String name;
 
-
     private String description;
 
     private LocalDate dueDate;
 
-    private UUID statusId;
+    private GetStatus status;
 
-    private UUID priorityId;
+    private GetPriority priority;
 
     private List<GetUser> responsibles;
 
@@ -42,8 +43,8 @@ public class GetTask {
             String name,
             String description,
             LocalDate dueDate,
-            UUID statusId,
-            UUID priorityId,
+            GetStatus status,
+            GetPriority priority,
             List<GetUser> responsibles,
             List<UUID> tags,
             LocalDateTime createdAt,
@@ -54,8 +55,8 @@ public class GetTask {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
-        this.statusId = statusId;
-        this.priorityId = priorityId;
+        this.status = status;
+        this.priority = priority;
         this.responsibles = responsibles;
         this.tags = tags;
         this.createdAt = createdAt;
@@ -68,8 +69,8 @@ public class GetTask {
         this.name = task.getName();
         this.description = task.getDescription();
         this.dueDate = task.getDueDate();
-        this.statusId = task.getStatus() != null ? task.getStatus().getId() : null;
-        this.priorityId = task.getPriority() != null ? task.getPriority().getId() : null;
+        this.status = task.getStatus() != null ? new GetStatus(task.getStatus()) : null;
+        this.priority = task.getPriority() != null ? new GetPriority(task.getPriority()) : null;
         this.responsibles = task.getResponsibles() != null
                 ? task.getResponsibles().stream().map(GetUser::new).toList()
                 : List.of();
@@ -114,20 +115,20 @@ public class GetTask {
         this.dueDate = dueDate;
     }
 
-    public UUID getStatusId() {
-        return statusId;
+    public GetStatus getStatus() {
+        return status;
     }
 
-    public void setStatusId(UUID statusId) {
-        this.statusId = statusId;
+    public void setStatus(GetStatus status) {
+        this.status = status;
     }
 
-    public UUID getPriorityId() {
-        return priorityId;
+    public GetPriority getPriority() {
+        return priority;
     }
 
-    public void setPriorityId(UUID priorityId) {
-        this.priorityId = priorityId;
+    public void setPriority(GetPriority priority) {
+        this.priority = priority;
     }
 
     public List<GetUser> getResponsibles() {

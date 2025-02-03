@@ -1,7 +1,6 @@
 package com.bm12.chabra.service;
 
 import com.bm12.chabra.config.validation.NotFoundException;
-import com.bm12.chabra.dto.list.GetList;
 import com.bm12.chabra.dto.space.GetSpace;
 import com.bm12.chabra.dto.space.SaveSpace;
 import com.bm12.chabra.dto.space.UpdateSpace;
@@ -84,7 +83,7 @@ public class SpaceService {
              * */
             User user = this.userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new NotFoundException("User not found"));
             try {
-                List<Space> spaces = this.spaceRepository.findSpacesByUserResponsavel(user.getId());
+                List<Space> spaces = this.spaceRepository.findSpacesByUserResponsible(user.getId());
                 return ResponseEntity.ok(spaces.stream().map(GetSpace::new).toList());
             } catch (Exception e) {
                 throw new RuntimeException("Error getting spaces" + e);
@@ -102,5 +101,14 @@ public class SpaceService {
         }
 
 
+    }
+
+    public ResponseEntity<GetSpace> getById(String id) {
+        try {
+            Space space = this.spaceRepository.findById(UUID.fromString(id)).orElseThrow(() -> new NotFoundException("Space not found"));
+            return ResponseEntity.ok(new GetSpace(space));
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting space" + e);
+        }
     }
 }
