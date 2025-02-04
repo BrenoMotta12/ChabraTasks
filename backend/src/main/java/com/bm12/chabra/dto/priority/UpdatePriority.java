@@ -1,5 +1,6 @@
 package com.bm12.chabra.dto.priority;
 
+import com.bm12.chabra.model.enums.PriorityLevel;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
@@ -11,9 +12,9 @@ public class UpdatePriority {
     private String description;
     private String color;
 
-    private Integer priorityLevel;
+    private PriorityLevel priorityLevel;
 
-    public UpdatePriority(UUID id, String description, String color, Integer priorityLevel) {
+    public UpdatePriority(UUID id, String description, String color, PriorityLevel priorityLevel) {
         this.id = id;
         this.description = description;
         this.color = color;
@@ -43,11 +44,11 @@ public class UpdatePriority {
         this.color = color;
     }
 
-    public Integer getPriorityLevel() {
+    public PriorityLevel getPriorityLevel() {
         return priorityLevel;
     }
 
-    public void setPriorityLevel(Integer priorityLevel) {
+    public void setPriorityLevel(PriorityLevel priorityLevel) {
         this.priorityLevel = priorityLevel;
     }
 }

@@ -2,6 +2,7 @@ package com.bm12.chabra.dto.priority;
 
 import com.bm12.chabra.model.Priority;
 import com.bm12.chabra.model.Status;
+import com.bm12.chabra.model.enums.PriorityLevel;
 import com.bm12.chabra.model.enums.StatusType;
 
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class GetPriority {
 
     private String color;
 
-    private Integer priorityLevel;
+    private PriorityLevel priorityLevel;
 
 
     public GetPriority(Priority priority) {
@@ -44,11 +45,11 @@ public class GetPriority {
         this.color = color;
     }
 
-    public Integer getPriorityLevel() {
+    public PriorityLevel getPriorityLevel() {
         return priorityLevel;
     }
 
-    public void setPriorityLevel(Integer priorityLevel) {
+    public void setPriorityLevel(PriorityLevel priorityLevel) {
         this.priorityLevel = priorityLevel;
     }
 }
