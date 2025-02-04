@@ -10,13 +10,16 @@ export default function Fragment({children, Icon, title}: FragmentProps) {
 
     
   return (
-    <div className='rounded-xl border-tertiary border-1 w-full h-full me-4'>
-        <div className='flex items-center gap-2 p-4 border-b-1 border-tertiary'>
-            {Icon}
-            <h1 className='text-xl'>{title}</h1>
+    <div className="rounded-xl border-tertiary border-1 w-full h-full relative flex flex-col">
+      
+        <div className="flex items-center gap-2 p-4 border-b-1 border-tertiary">
+          {Icon}
+          <h1 className="text-xl">{title}</h1>
         </div>
-        
+    
         {children}
     </div>
-  )
+    
+  );
+  
 }

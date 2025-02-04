@@ -55,11 +55,16 @@ export default function ListFragment() {
             }
             title={`${space?.name} > ${list?.name}`}
         >
+            
             <FragmentNavBar
                 id={id}
             />
+           
+            <div className="overflow-x-auto overflow-y-hidden p-2 w-full h-full">
+                <Outlet />
 
-            <Outlet />
+            </div>
+                        
 
         </Fragment>
     )

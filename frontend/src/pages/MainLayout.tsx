@@ -8,7 +8,7 @@ export default function MainLayout() {
     <div className='flex flex-col h-screen'>
         <TopBar/>
 
-        <main className='flex h-full w-full pb-4'>
+        <main className='flex flex-1 overflow-y-auto max-w-screen pb-2 pe-2'>
             <SideBar/>
             <Outlet />
         </main>
