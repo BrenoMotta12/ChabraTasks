@@ -4,7 +4,7 @@ export interface Space {
     id: string
     color?: string
     description?: string
-    name?: string
+    name: string
     lists: List[]
 }
 

@@ -16,7 +16,7 @@ export default function SpaceFragment() {
         if(!user?.token) return
         if(!id) return
         fetchSpace(user.token, id)
-    }, [])
+    }, [id])
 
     const fetchSpace = async (token: string, id: string) => {
         try {
@@ -34,7 +34,9 @@ export default function SpaceFragment() {
         <Fragment
             title={space?.name ? space?.name : ''}
             Icon={
-                <h1 className="bg-[#02A85C] text-white font-medium text-2xl rounded-xl h-8 w-8 flex items-center justify-center">
+                <h1 className="text-white font-medium text-2xl rounded-xl h-8 w-8 flex items-center justify-center"
+                    style={{backgroundColor: space?.color ? space?.color : "#7F7F7F"}}
+                >
                     {space?.name?.charAt(0).toUpperCase()}
                 </h1>
             }
