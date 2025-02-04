@@ -22,7 +22,7 @@ export function getAuthorization(token: string | undefined) {
     return {headers: {Authorization: `Bearer ${token}`}}
 }
 
-export function getHeadersAndParams(search: string, token: string | undefined) {
+export function getHeadersAndParams(search: string, token: string) {
     
     return {headers: {Authorization: `Bearer ${token}`}, params: {search: search}}
       

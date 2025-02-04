@@ -6,7 +6,7 @@ export default function Graphs() {
   return (
     <Fragment
       title='Gráficos'
-      icon={GraphIcon}
+      Icon={<img src={GraphIcon}/>}
     >
       <div>Graphs</div>
 

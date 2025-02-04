@@ -6,7 +6,7 @@ export default function Notifications() {
   return (
     <Fragment
     title='Notificações'
-    icon={bellIcon}
+    Icon={<img src={bellIcon}/>}
     >
       <div>Notifications</div>
       
