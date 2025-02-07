@@ -22,29 +22,21 @@ public class UpdateUser {
 
     @NotEmpty(message = "Email cannot be empty")
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    @Schema(description = "Email address of the user", example = "example@example.com.br")
     private String email;
 
-    @NotEmpty(message = "Password cannot be empty")
     @Length(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
-    @Schema(description = "Password of the user, must be between 8 and 50 characters", example = "P@ssw0rd123")
     private String password;
-
-    @Length(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
-    @Schema(description = "Password of the user, must be between 8 and 50 characters", example = "P@ssw0rd123")
-    private String newPassword;
 
     @Schema(description = "Role of the user, defines which features the user can access", example = "Admin")
     private UserRole role;
 
 
 
-    public UpdateUser(UUID id, String name, String email, String password, String newPassword, UserRole role) {
+    public UpdateUser(UUID id, String name, String email, String password, UserRole role) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.newPassword = newPassword;
         this.role = role;
     }
 
@@ -65,10 +57,6 @@ public class UpdateUser {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
     }
 
     public UserRole getRole() {

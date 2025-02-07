@@ -140,11 +140,6 @@ public class UserService implements UserDetailsService {
         // Carrega o usuário
         User user = findUserById(updateUser.getId());
 
-        // Verifica se a senha está correta para evitar que um usuário consiga alterar a senha de outro
-        if (!this.passwordEncoder.matches(updateUser.getPassword(), user.getPassword())) {
-            throw new UnauthorizedException("Invalid password");
-        }
-
         // Verifica se já existe outro usuário com esse email cadastrado
         Optional<User> userOptional = this.userRepository.findByEmail(updateUser.getEmail());
         if (userOptional.isPresent() && !Objects.equals(userOptional.get().getId(), updateUser.getId())) {
@@ -154,15 +149,12 @@ public class UserService implements UserDetailsService {
         // Seta o novo nome e novo email do usuário
         user.setName(updateUser.getName());
         user.setEmail(updateUser.getEmail());
+        user.setRole(updateUser.getRole());
 
-        // Se o usuário informar uma nova senha, a mesma é atualizada
-        if (updateUser.getNewPassword() != null) {
-            user.setPassword(this.passwordEncoder.encode(updateUser.getNewPassword()));
+        if (updateUser.getPassword() != null) {
+            user.setPassword(this.passwordEncoder.encode(updateUser.getPassword()));
         }
 
-        if (updateUser.getRole() != null) {
-            user.setRole(updateUser.getRole());
-        }
 
         try {
             user = this.userRepository.save(user);

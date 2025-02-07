@@ -49,7 +49,6 @@ public class SpringSecurityConfig {
                                         "/v2/api-docs/yaml",        // Documentação do Swagger (v2)
                                         "/swagger-ui/**",           // Interface do Swagger
                                         "/swagger-ui.html",         // Arquivo HTML do Swagger
-                                        "/users/signUp",            // Endpoint de cadastro de usuário
                                         "/users/auth"              // Endpoint de autenticação do usuário
                                 ).permitAll()// As rotas especificadas acima são acessíveis sem autenticação
                                 .requestMatchers("/users", "/users/update", "/status", "/priority").hasRole(String.valueOf(UserRole.ADMIN))
@@ -60,6 +59,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/priority/{id}").hasRole(String.valueOf(UserRole.ADMIN))
                                 .requestMatchers(HttpMethod.PUT, "/space").hasRole(String.valueOf(UserRole.ADMIN))
                                 .requestMatchers(HttpMethod.PUT, "/list").hasRole(String.valueOf(UserRole.ADMIN))
+                                .requestMatchers(HttpMethod.PUT, "/users").hasRole(String.valueOf(UserRole.ADMIN))
                                 .requestMatchers(HttpMethod.POST, "/space").hasRole(String.valueOf(UserRole.ADMIN))
                                 .requestMatchers(HttpMethod.POST, "/list").hasRole(String.valueOf(UserRole.ADMIN))
                                 .anyRequest().authenticated()  // Todas as outras requisições precisam ser autenticadas
