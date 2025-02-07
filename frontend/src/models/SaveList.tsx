@@ -1,7 +1,7 @@
-export interface List{
+export interface SaveList{
     color?: string
     description?: string
-    id: string
-    spaceId?: string
+    id?: string
+    spaceId: string
     name: string
 }

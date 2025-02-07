@@ -5,7 +5,6 @@ import { Space } from '../../models/Space'
 import useAuth from '../../hooks/useAuth'
 import { List } from '../../models/List'
 import { Api, getHeadersAndParams, getHeadersAuthorization } from '../../services/Api'
-import listIcon from '../../assets/list.svg'
 import FragmentNavBar from '../../components/FragmentNavBar'
 
 export default function ListFragment() {
