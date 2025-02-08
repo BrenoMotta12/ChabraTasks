@@ -17,7 +17,6 @@ import java.util.UUID;
 
 public class SaveTask {
 
-
     @NotEmpty(message = "Name cannot be empty")
     private String name;
 
@@ -33,13 +32,18 @@ public class SaveTask {
     @NotNull(message = "List ID cannot be null")
     private UUID listId;
 
-    public SaveTask(String name, String description, LocalDate dueDate, UUID statusId, UUID priorityId, UUID listId) {
+    private List<UUID> responsibles;
+    private List<UUID> tags;
+
+    public SaveTask(String name, String description, LocalDate dueDate, UUID statusId, UUID priorityId, UUID listId, List<UUID> responsibles, List<UUID> tags) {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
         this.statusId = statusId;
         this.priorityId = priorityId;
         this.listId = listId;
+        this.responsibles = responsibles;
+        this.tags = tags;
     }
 
     public SaveTask () {}
@@ -90,5 +94,21 @@ public class SaveTask {
 
     public void setPriorityId(UUID priorityId) {
         this.priorityId = priorityId;
+    }
+
+    public List<UUID> getResponsibles() {
+        return responsibles;
+    }
+
+    public void setResponsibles(List<UUID> responsibles) {
+        this.responsibles = responsibles;
+    }
+
+    public List<UUID> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<UUID> tags) {
+        this.tags = tags;
     }
 }

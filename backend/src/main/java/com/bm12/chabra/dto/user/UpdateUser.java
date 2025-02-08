@@ -7,7 +7,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class UpdateUser {
@@ -24,20 +26,22 @@ public class UpdateUser {
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    @Length(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
     private String password;
 
     @Schema(description = "Role of the user, defines which features the user can access", example = "Admin")
     private UserRole role;
 
 
+    private Boolean deleted;
 
-    public UpdateUser(UUID id, String name, String email, String password, UserRole role) {
+
+    public UpdateUser(UUID id, String name, String email, String password, UserRole role, Boolean deleted) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.deleted = deleted;
     }
 
     public UpdateUser() {
@@ -63,4 +67,7 @@ public class UpdateUser {
         return role;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
 }

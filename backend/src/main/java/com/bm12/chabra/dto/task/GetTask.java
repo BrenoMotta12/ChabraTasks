@@ -2,15 +2,12 @@ package com.bm12.chabra.dto.task;
 
 import com.bm12.chabra.dto.priority.GetPriority;
 import com.bm12.chabra.dto.status.GetStatus;
+import com.bm12.chabra.dto.tag.GetTag;
 import com.bm12.chabra.dto.user.GetUser;
 import com.bm12.chabra.model.*;
-import jakarta.persistence.*;
-import org.hibernate.annotations.UuidGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +27,7 @@ public class GetTask {
 
     private List<GetUser> responsibles;
 
-    private List<UUID> tags;
+    private List<GetTag> tags;
 
     private LocalDateTime createdAt;
 
@@ -46,7 +43,7 @@ public class GetTask {
             GetStatus status,
             GetPriority priority,
             List<GetUser> responsibles,
-            List<UUID> tags,
+            List<GetTag> tags,
             LocalDateTime createdAt,
             LocalDateTime completedAt,
             UUID listTaskId)
@@ -75,7 +72,7 @@ public class GetTask {
                 ? task.getResponsibles().stream().map(GetUser::new).toList()
                 : List.of();
         this.tags = task.getTags() != null
-                ? task.getTags().stream().map(Tag::getId).toList()
+                ? task.getTags().stream().map(GetTag::new).toList()
                 : List.of();
         this.createdAt = task.getCreatedAt();
         this.completedAt = task.getCompletedAt();
@@ -139,11 +136,11 @@ public class GetTask {
         this.responsibles = responsibles;
     }
 
-    public List<UUID> getTags() {
+    public List<GetTag> getTags() {
         return tags;
     }
 
-    public void setTags(List<UUID> tags) {
+    public void setTags(List<GetTag> tags) {
         this.tags = tags;
     }
 

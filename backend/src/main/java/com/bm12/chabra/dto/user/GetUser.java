@@ -4,26 +4,30 @@ import com.bm12.chabra.model.User;
 import com.bm12.chabra.model.enums.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class GetUser {
 
     @Schema(description = "Unique identifier of the user", example = "123e4567-e89b-12d3-a456-426614174000")
-    UUID id;
+    private UUID id;
     @Schema(description = "Name of the user", example = "example")
-    String name;
+    private String name;
     @Schema(description = "Email of the user", example = "example@example.com")
-    String email;
+    private String email;
 
     @Schema(description = "Role of the user", example = "ADMIN")
-    UserRole role;
+    private UserRole role;
+
+    private LocalDateTime deletedAt;
 
 
-    public GetUser(UUID id, String name, String email, UserRole role) {
+    public GetUser(UUID id, String name, String email, UserRole role, LocalDateTime deletedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.deletedAt = deletedAt;
     }
 
     public GetUser(User user) {
@@ -31,6 +35,7 @@ public class GetUser {
         this.name = user.getName();
         this.email = user.getEmail();
         this.role = user.getRole();
+        this.deletedAt = user.getDeletedAt() == null ? null : user.getDeletedAt();
     }
 
     public GetUser () {}
@@ -67,5 +72,13 @@ public class GetUser {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

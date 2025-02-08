@@ -19,7 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.Date;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -102,7 +105,8 @@ public class UserService implements UserDetailsService {
                 listGetUser.add(new GetUser(l));
             }
 
-            return ResponseEntity.ok(listGetUser);
+            return ResponseEntity.ok(listGetUser)
+                    ;
         } catch (Exception e) {
             throw new RuntimeException("Error fetching users");
         }
@@ -151,8 +155,14 @@ public class UserService implements UserDetailsService {
         user.setEmail(updateUser.getEmail());
         user.setRole(updateUser.getRole());
 
-        if (updateUser.getPassword() != null) {
+        if (updateUser.getPassword() != null & !updateUser.getPassword().isEmpty()) {
             user.setPassword(this.passwordEncoder.encode(updateUser.getPassword()));
+        }
+
+        if (updateUser.getDeleted()) {
+            user.setDeletedAt(LocalDateTime.now());
+        } else {
+            user.setDeletedAt(null);
         }
 
 
@@ -177,6 +187,10 @@ public class UserService implements UserDetailsService {
         User user = this.userRepository.findByEmail(authUser.getEmail()).orElseThrow(() -> {
             return new NotFoundException("Usuário não encontrado");
         });
+
+        if (user.getDeletedAt() != null) {
+            throw new UnauthorizedException("Usuário desativado");
+        }
 
         // Verifica se a senha é valida
         if (!this.passwordEncoder.matches(authUser.getPassword(), user.getPassword())) {

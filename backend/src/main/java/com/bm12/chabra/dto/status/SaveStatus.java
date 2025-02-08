@@ -10,7 +10,6 @@ public class SaveStatus {
 
     private String color;
 
-    @NotEmpty(message = "Status type cannot be empty")
     private StatusType statusType;
 
     public SaveStatus(String description, String color, StatusType statusType) {

@@ -4,7 +4,9 @@ import com.bm12.chabra.dto.space.GetSpace;
 import com.bm12.chabra.dto.status.GetStatus;
 import com.bm12.chabra.dto.status.SaveStatus;
 import com.bm12.chabra.dto.status.UpdateStatus;
+import com.bm12.chabra.dto.user.GetUser;
 import com.bm12.chabra.model.Status;
+import com.bm12.chabra.model.User;
 import com.bm12.chabra.repository.StatusRepository;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -59,6 +63,21 @@ public class StatusService {
             return ResponseEntity.ok().body("Status deleted");
         } catch (Exception e) {
             throw new RuntimeException("Error deleting status" + e);
+        }
+    }
+
+    public ResponseEntity<List<GetStatus>> getAll() {
+        try {
+            List<Status> statusList = this.statusRepository.findAll();
+
+            List<GetStatus> listGetStatus = new ArrayList<>();
+            for (Status s : statusList) {
+                listGetStatus.add(new GetStatus(s));
+            }
+
+            return ResponseEntity.ok().body(listGetStatus);
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching status " + e);
         }
     }
 }

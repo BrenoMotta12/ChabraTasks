@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -55,6 +56,9 @@ public class StatusController {
         return this.statusService.delete(id);
     }
 
-
+    @GetMapping
+    public ResponseEntity<List<GetStatus>> getAll() {
+        return this.statusService.getAll();
+    }
 
 }
