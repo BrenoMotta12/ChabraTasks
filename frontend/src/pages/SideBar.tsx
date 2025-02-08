@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import homeIcon from '../assets/home.svg'
 import bellIcon from '../assets/bell.svg'
 import graphIcon from '../assets/graph.svg'
@@ -9,15 +9,15 @@ import { Api, getHeadersAuthorization, getHeadersBodyAuthorization } from '../se
 import useAuth from '../hooks/useAuth'
 import plusIcon from '../assets/plus.svg'
 import moreIcon from '../assets/more.svg'
-import { List } from '../models/List'
-import { Space } from '../models/Space'
+import { List } from '../models/list/List'
+import { Space } from '../models/space/Space'
 import listIcon from '../assets/list.svg'
 import arrowIcon from '../assets/arrow_down.svg'
 import { NavLink } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import { SaveSpace } from '../models/SaveSpace'
+import { SaveSpace } from '../models/space/SaveSpace'
 import InputModal from '../components/InputModal'
-import { SaveList } from '../models/SaveList'
+import { SaveList } from '../models/list/SaveList'
 
 export default function SideBar() {
 
@@ -29,13 +29,13 @@ export default function SideBar() {
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     // Variaveis para edição e criação do space
-    const [nameSpace, setNameSpace] = useState<string>()
+    const [nameSpace, setNameSpace] = useState<string>('')
     const [descriptionSpace, setDescriptionSpace] = useState<string>()
     const [colorSpace, setColorSpace] = useState<string>()
     const [editingSpaceId, setEditingSpaceId] = useState<string | null>(null);
 
      // Variaveis para edição e criação do list
-     const [nameList, setNameList] = useState<string>()
+     const [nameList, setNameList] = useState<string>('')
      const [descriptionList, setDescriptionList] = useState<string>()
      const [colorList, setColorList] = useState<string>()
      const [editingListId, setEditingListId] = useState<string | null>(null);

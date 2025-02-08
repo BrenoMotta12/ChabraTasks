@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
-import { User } from '../models/User'
+import { User } from '../models/user/User'
 import imgLog1 from '../assets/imagelogin1.png'
 import imgLog2 from '../assets/imagelogin2.png'
 import chabraLogo from '../assets/chabra_logo.png'
@@ -36,12 +36,13 @@ export default function Login() {
     }
 
  return (
-    <main className="flex flex-col gap-10 items-center justify-center min-h-screen">
+    <main className="flex flex-col gap-10 items-center justify-center h-screen w-screen overflow-hidden fixed">
+
     <img src={imgLog1} className="absolute bottom-0 left-0 z-0" />
     <img src={imgLog2} className="absolute top-0 right-0 z-0" />
 
 
-    <img src={chabraLogo} alt="" className="h-90" />
+    <img src={chabraLogo} alt="" className="h-90 z-50" />
 
     <form 
         onSubmit={handleLogin}

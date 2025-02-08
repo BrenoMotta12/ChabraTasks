@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState, ReactNode } from 'react';
 import { getHeaders, Api } from '../services/Api';
-import { User } from '../models/User';
+import { User } from '../models/user/User';
 import toast from 'react-hot-toast';
 import { AuthContextModel } from '../models/AuthContext';
 import { AxiosError } from 'axios';

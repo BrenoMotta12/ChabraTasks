@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import { Api, getHeadersAuthorization } from '../../../services/Api';
-import { Task } from '../../../models/Task';
+import { Task } from '../../../models/task/Task';
 
 export default function BoardSubfragment() {
   const { id } = useParams<{ id: string }>();

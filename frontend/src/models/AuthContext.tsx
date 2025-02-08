@@ -1,4 +1,4 @@
-import { User } from "./User";
+import { User } from "./user/User";
 
 export interface AuthContextModel {
     user: User | null;

@@ -1,4 +1,4 @@
-import { List } from "./List"
+import { List } from "../list/List"
 
 export interface Space {
     id: string

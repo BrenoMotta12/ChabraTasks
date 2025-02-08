@@ -15,7 +15,7 @@ export default function FragmentNavBar({ id }: FragmentNavBarProps) {
 
   return (
     <main>
-      <div className="w-full flex gap-10 h-13 px-5 border-b-1 border-tertiary items-center">
+      <div className="w-full flex gap-10 h-13 px-5 items-center">
         <NavLink
           to={`/list/board/${id}`}
           className={({ isActive }) =>

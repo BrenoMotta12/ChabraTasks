@@ -51,13 +51,16 @@ export default function TopBar({ onOpenModal }: { onOpenModal: () => void }) {
                         </div>
 
                         <div className='flex flex-col pe-5 gap-2'>
-                            <div 
-                                className='flex gap-2'
-                                onClick={onOpenModal}
-                            >
-                                <img src={userIcon} />
-                                <p className='whitespace-nowrap overflow-hidden'>Cadastro de usuário</p>
-                            </div>
+                            {user?.role == "ADMIN" &&
+
+                                <div 
+                                    className='flex gap-2'
+                                    onClick={onOpenModal}
+                                    >
+                                    <img src={userIcon} />
+                                    <p className='whitespace-nowrap overflow-hidden'>Cadastro de usuário</p>
+                                </div>
+                            }
                             <div 
                                 className='flex gap-2'
                                 onClick={logout}
