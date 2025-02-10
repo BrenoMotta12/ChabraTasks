@@ -2,10 +2,10 @@ package com.bm12.chabra.model.enums;
 
 public enum PriorityLevel {
 
-    URGENT(1),
-    HIGH(2),
-    NORMAL(3),
-    LOW(4);
+    URGENT(0),
+    HIGH(1),
+    NORMAL(2),
+    LOW(3);
 
 
     private Integer priorityLevel;

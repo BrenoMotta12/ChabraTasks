@@ -1,5 +1,7 @@
 package com.bm12.chabra.model;
 
+import com.bm12.chabra.dto.tag.SaveTag;
+import com.bm12.chabra.dto.tag.UpdateTag;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -33,6 +35,16 @@ public class Tag {
 
     public Tag() {}
 
+    public Tag(SaveTag saveTag) {
+        this.description = saveTag.getDescription();
+        this.color = saveTag.getColor();
+    }
+    public void update(UpdateTag updateTag) {
+        this.description = updateTag.getDescription() != null && !updateTag.getDescription().isEmpty() ? updateTag.getDescription() : this.description;
+        this.color = updateTag.getColor() != null && !updateTag.getColor().isEmpty() ? updateTag.getColor() : this.color;
+    }
+
+
     public UUID getId() {
         return id;
     }
@@ -60,4 +72,6 @@ public class Tag {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+
 }
