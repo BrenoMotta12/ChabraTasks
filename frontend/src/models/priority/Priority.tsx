@@ -1,7 +1,9 @@
-export interface Priority {
-    id: string;
-    description: string;
-    color: string;
-    priorityLevel: number;
+import { PriorityLevel } from "./PriorityLevel"
 
+export interface Priority {
+    id: String
+    description: String
+    color: String
+    priorityLevel: PriorityLevel
 }
+

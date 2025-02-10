@@ -528,7 +528,7 @@ export default function SideBar() {
                                             >
                                                 <div className="flex items-center gap-2 py-1 w-full px-2">
                                                     <img src={listIcon} className="h-4" />
-                                                    <h1>{list.name}</h1>
+                                                    <h1 className='whitespace-nowrap overflow-hidden text-ellipsis'>{list.name}</h1>
                                                 </div>
                                             </NavLink>
 

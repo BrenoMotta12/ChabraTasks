@@ -106,7 +106,7 @@ export default function StatusFragment() {
 
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 h-[95%] overflow-y-auto">
       {orderedGroupedStatus.map(({ type, statuses }) => (
         <div key={type} className="border border-tertiary p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold">{statusTypeMap[type] || type}</h2>
